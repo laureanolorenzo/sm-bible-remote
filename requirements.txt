@@ -22,6 +22,7 @@ fastapi==0.110.0
 Flask==3.0.2
 Flask-Cors==4.0.0
 frozenlist==1.4.1
+gunicorn==21.2.0
 h11==0.14.0
 httpcore==1.0.4
 httptools==0.6.1
@@ -37,6 +38,7 @@ multidict==6.0.5
 nltk==3.8.1
 numpy==1.26.4
 orjson==3.9.15
+packaging==23.2
 paramiko==3.4.0
 pfzy==0.3.4
 pinecone-client==3.1.0
