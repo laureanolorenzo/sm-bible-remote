@@ -1,0 +1,11 @@
+.env
+.dockerignore
+sm_bible
+Dockerfile
+README.md
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+app.yaml
