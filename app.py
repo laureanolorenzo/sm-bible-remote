@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import requests
 load_dotenv()
 pc_API_key = os.getenv('PINECONE_API_KEY')
-own_API_key = os.getenv('OWN_API_KEY')
+# own_API_key = os.getenv('OWN_API_KEY')
 doc_name = 'sb_test' #####CHANGE LATER
 index_name='smart-bible'
 pc_index = pinecone_index(pc_API_key,index_name) # Pinecone connection
@@ -23,14 +23,14 @@ def post_predict():
     threshold = request.get_json().get('threshold')
     n_results_passed = request.get_json().get('n_results')
     if not threshold:
-        threshold = -5
+        threshold = -2
     if not n_results_passed:
-        n_results_passed = 3   
+        n_results_passed = 3 
+    if n_results_passed > 5:
+        n_results_passed = 5  
     threshold = float(threshold)
     n_results_passed = int(n_results_passed)
     incoming_api_key = request.headers.get('Auth')
-    if own_API_key != incoming_api_key:
-        return jsonify({'status':401,'relevant_docs':[]})
     filtered_query = filter_stopwords(text)
     json_query = json.dumps({'message':filtered_query})
     answer = requests.post(
@@ -63,6 +63,5 @@ def post_predict():
         'relevant_documents': relevant_docs, #etc
     }
     return jsonify(response)
-
 if __name__ == '__main__':
     app.run()

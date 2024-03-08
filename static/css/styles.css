@@ -208,6 +208,16 @@ body {
 .passage {
     text-align: left;
 }
+.questions {
+    text-align: left;
+    margin: 8px;
+}
+.questions > p {
+    margin-bottom: 2px;
+}
+.questions > ul {
+    margin-top: 0px;
+}
 
 /* HTML: <div class="loader"></div> Thank you to: https://css-loaders.com/dots/*/ 
 .loader {

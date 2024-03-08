@@ -55,8 +55,12 @@ function createHTMLFromResponse(results){
     
 
 }
-async function displayNewUserMessage(message,chatHistory,userInputBar,authInput,tInput,nInput) {
+async function displayNewUserMessage(message,chatHistory,userInputBar,nInput) {
     displayingMessage = true; //Disable chat while waiting for api result
+    if (chatHistory.childElementCount > 40){ //To keep chat size under control
+        chatHistory.removeChild(chatHistory.firstElementChild)
+        console.log('REMOVED')
+    }
     
     if (message.value.length) {
         await new Promise(resolve => setTimeout(resolve,50));
@@ -84,9 +88,9 @@ async function displayNewUserMessage(message,chatHistory,userInputBar,authInput,
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Auth": authInput
+                // "Auth": authInput
               },
-            body: JSON.stringify({message:messageForAPI,n_results:nInput,threshold:tInput})
+            body: JSON.stringify({message:messageForAPI,n_results:nInput})
         });
         results = await results.json()
         let loadingElem = document.getElementById('loading-child');
@@ -99,16 +103,6 @@ let displayingMessage = false; //Outside window event listener, otherwise it get
 window.addEventListener('load', () => {
     const userInputBar = document.querySelector('.user-input-bar');
     const sendBtn = document.querySelector('.send-btn');
-    let authBtn = document.querySelector('.auth-btn');
-    let authInput;
-    authBtn.addEventListener('click', ()=> {
-        authInput = document.querySelector('.auth').value;
-    })
-    let tBtn = document.querySelector('.threshold-btn');
-    let tInput;
-    authBtn.addEventListener('click', ()=> {
-        tInput = document.querySelector('.threshold').value;
-    })
     let nBtn = document.querySelector('.n-results-btn');
     let nInput;
     nBtn.addEventListener('click', ()=> {
@@ -130,13 +124,13 @@ window.addEventListener('load', () => {
         sendBtn.addEventListener('click',()=>
         {   
             if ((userInputBar.value != 'Type a message here') && (!displayingMessage)){
-                displayNewUserMessage(userInputBar,chatHistorySection,userInputBar,authInput,tInput,nInput);
+                displayNewUserMessage(userInputBar,chatHistorySection,userInputBar,nInput);
             }
         });
         window.addEventListener('keydown',(e)=>
         {
             if ((e.key == 'Enter') && (userInputBar == document.activeElement) && (!displayingMessage)) {
-                displayNewUserMessage(userInputBar,chatHistorySection,userInputBar,authInput,tInput,nInput);
+                displayNewUserMessage(userInputBar,chatHistorySection,userInputBar,nInput);
             } else if ((userInputBar == document.activeElement) && (userInputBar.value == 'Type a message here') && (e.key != 'Enter')) {
                 userInputBar.value = '';
             }
