@@ -31,15 +31,10 @@ function createHTMLFromResponse(results){
                     `            
             }
         }
-    } else if (status == 201) {
+    } else if (status){
         htmlResponse += `
         <div class="agent-message">
-            <p>I'm sorry, it seems I couldn't find relevant verses. Please try with a different question.</p>  
-        `
-    } else if (status == 401) {
-        htmlResponse += `
-        <div class="agent-message">
-            <p>I'm sorry, it seems the entered authorization key is not valid.</p>  
+            <p>${results.message}</p>  
         `
     } else {
      htmlResponse += `

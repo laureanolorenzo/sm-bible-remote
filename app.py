@@ -23,7 +23,7 @@ def post_predict():
     threshold = request.get_json().get('threshold')
     n_results_passed = request.get_json().get('n_results')
     if not threshold:
-        threshold = -2
+        threshold = -5
     if not n_results_passed:
         n_results_passed = 3 
     if n_results_passed > 5:
@@ -33,14 +33,17 @@ def post_predict():
     incoming_api_key = request.headers.get('Auth')
     filtered_query = filter_stopwords(text)
     json_query = json.dumps({'message':filtered_query})
-    answer = requests.post(
-        pod_url + '/embed',
-        data=json_query,
-        headers={"Content-Type": "application/json"}
-        )
-    answer = answer.json()
+    try:
+        answer = requests.post(
+            pod_url + '/embed',
+            data=json_query,
+            headers={"Content-Type": "application/json"}
+            )
+        answer = answer.json()
+    except:
+        return jsonify({'status':503,'message':"I'm sorry, it seems we are out of funds and cannot pay for the server. You can try running the chatbot locally. For further questions, contact the developer. "})
     if answer['status'] != 200:
-        return jsonify({'status':500,'relevant_documents':[]})
+        return jsonify({'status':500,'message': "I'm sorry, it seems I couldn't find relevant verses. Please try with a different question."})
     else:
         status = 200
     vectors = answer['result']
