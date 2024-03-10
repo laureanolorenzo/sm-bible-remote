@@ -23,7 +23,7 @@ def post_predict():
     threshold = request.get_json().get('threshold')
     n_results_passed = request.get_json().get('n_results')
     if not threshold:
-        threshold = -5
+        threshold = -6
     if not n_results_passed:
         n_results_passed = 3 
     if n_results_passed > 5:
@@ -59,8 +59,7 @@ def post_predict():
     second_result = get_second_results(sorted_passages,threshold=threshold,mapped_results=passages)
     relevant_docs = get_context(second_result,n_results_passed)
     if not len(relevant_docs):
-        status = 201
-        relevant_docs = []
+        return jsonify({'status':500,'message': "I'm sorry, it seems I couldn't find relevant verses. Please try with a different question."})
     response = {
         'status':status,
         'relevant_documents': relevant_docs, #etc

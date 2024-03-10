@@ -7,6 +7,7 @@ function prettifyPassage(passage){
     return resultPassage.join('\n')
 }
 function createHTMLFromResponse(results){
+    console.log(results)
     let htmlResponse = `        
     <div class="agent-interaction">
         <div class="agent-profile">
