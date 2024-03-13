@@ -26,7 +26,7 @@ def post_predict():
         threshold = -6
     if not n_results_passed:
         n_results_passed = 3 
-    if n_results_passed > 5:
+    if int(n_results_passed) > 5:
         n_results_passed = 5  
     threshold = float(threshold)
     n_results_passed = int(n_results_passed)
